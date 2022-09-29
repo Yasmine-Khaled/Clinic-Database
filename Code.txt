@@ -1,0 +1,250 @@
+/*------------ Assistant Table ------------*/
+CREATE TABLE Assistant(
+  A_SSN Number(14) primary key,
+  SEX varchar2(6),
+  SALARY Number(8),
+  F_name varchar2(25),
+  L_name varchar2(25),
+  hire_Date date,
+  Work_hour Number(10),
+  City varchar2(100),
+  Street varchar2(100),
+  house_number Number(3)
+);
+
+/*------------ Assistant Phone Table ------------*/
+CREATE TABLE Assistant_Phone(
+  A_SSN Number(14),
+  Phone Number(11),
+  Foreign key (A_SSN) references Assistant(A_SSN),
+  constraint AS_ph_pk primary key (phone,A_SSN)
+);
+
+/*------------ Assistant Degree Table ------------*/
+CREATE TABLE Assistant_Degree(
+  A_SSN Number(14),
+  A_Degree varchar2(50),
+  Foreign key (A_SSN) references Assistant(A_SSN),
+  constraint AS_deg_pk primary key (A_Degree,A_SSN)
+);
+
+/*------------ Doctor Table ------------*/
+CREATE TABLE Doctor(
+  D_SSN Number(14) primary key,
+  SEX varchar2(6),
+  SALARY Number(8),
+  F_name varchar2(25),
+  L_name varchar2(25),
+  Specialization varchar2(25),
+  Birth_Of_Date date,
+  Work_hour Number(2),
+  City varchar2(100),
+  Street varchar2(100),
+  house_number Number(3),
+  A_SSN Number(14),
+  Foreign key(A_SSN) references ASSISTANT(A_SSN)
+);
+
+/*------------ Doctor Phone Table ------------*/
+CREATE TABLE Doc_Phone(
+  D_SSN Number(14),
+  Phone Number(11) unique,
+  Foreign key (D_SSN) references Doctor(D_SSN),
+  constraint DC_ph_pk primary key (Phone,D_SSN)
+);
+
+/*------------ Doctor Degree Table ------------*/
+CREATE TABLE Doc_Degree(
+  D_SSN Number(14),
+  D_Degree varchar2(50),
+  Foreign key (D_SSN) references Doctor(D_SSN),
+  constraint DC_deg_pk primary key (D_Degree,D_SSN)
+);
+
+/*------------ receptionist Table ------------*/
+create table receptionist(
+  R_SSN number(14) PRIMARY KEY,
+  f_name varchar(25),
+  l_name varchar(25),
+  works_hours number(2),
+  sex varchar(6),
+  salary number(8),
+  hire_date date not null, 
+  city varchar(250),
+  street varchar(250), 
+  house_no number(3)
+);
+
+/*------------ receptionist Phone Table ------------*/
+create table rec_phone(
+  phone number (15),
+  r_ssn number (14) references receptionist(r_ssn),
+  constraint rec_pk primary key (phone,r_ssn)
+);
+
+/*------------ receptionist Degree Table ------------*/
+create table rec_degree (
+  degrees varchar(500),
+  r_ssn number(14) references receptionist(r_ssn),
+  constraint rec_deg_pk primary key (degrees,r_ssn)
+);
+
+/*------------ Patients Table ------------*/
+create table patients(
+  p_ssn number(14) primary key,
+  f_name varchar(25),
+  l_name varchar(25),
+  sex varchar(6),
+  r_ssn  number(14),
+  insurence_num number(6),
+  book_num number(5),
+  birth_date date,
+  l_check date,
+  FOREIGN KEY(R_SSN) REFERENCES receptionist(R_SSN)
+);
+
+/*------------ Assistant Table Data ------------*/
+insert into Assistant(a_ssn, sex, salary, f_name, l_name, hire_date, work_hour, city, street, house_number)
+VALUES (20201700704,'Female',6000,'Sara','Mahmoud','20-dec-2018',8,'Giza','Giza-ST',15);
+
+insert into Assistant(a_ssn, sex, salary, f_name, l_name, hire_date, work_hour, city, street, house_number)
+VALUES (20201700705,'Male',6500,'Sameh','Awad','20-dec-2018',8,'Giza','Eb-Bohoos',23);
+
+insert into Assistant(a_ssn, sex, salary, f_name, l_name, hire_date, work_hour, city, street, house_number)
+VALUES (20201700707,'Male',4000,'Omar','Reda','23-jun-2022',8,'Giza','Eb-Bohoos',100);
+
+insert into Assistant(a_ssn, sex, salary, f_name, l_name, hire_date, work_hour, city, street, house_number)
+VALUES (20201700600,'Female',7000,'Marwa','Ashraf','05-jul-2008',8,'Cairo','Nile-st',1);
+
+
+/*------------ Doctor Table Data ------------*/
+insert into Doctor (d_ssn,sex, salary, f_name, l_name, specialization, birth_of_date, work_hour, city, street, house_number, a_ssn)
+VALUES (20201700703,'Male',8000,'Mohammed','Sayed','Heart','25-jun-1990',8,'Giza','Doqi',20,20201700704);
+
+insert into Doctor (d_ssn,sex, salary, f_name, l_name, specialization, birth_of_date, work_hour, city, street, house_number, a_ssn)
+VALUES (20201700801,'Male',8000,'Ahmed','Gaber','Heart','30-jun-1999',8,'ALexandria','Abo-qeree',20,20201700707);
+
+insert into Doctor (d_ssn,sex, salary, f_name, l_name, specialization, birth_of_date, work_hour, city, street, house_number, a_ssn)
+VALUES (20201700805,'Female',8000,'Maria','Kerles','Eyes','11-nov-2006',8,'ALexandria','Abo-qeree',20,20201700600);
+
+insert into Doctor (d_ssn,sex, salary, f_name, l_name, specialization, birth_of_date, work_hour, city, street, house_number, a_ssn)
+VALUES (20201700820,'Female',8000,'Hoda','Areef','Ears','5-feb-2007',8,'Sharqia','Sharqia',17,20201700704);
+
+
+/*------------ Patient Table Data ------------*/
+
+insert into  patients (f_name, l_name, p_ssn, sex, insurence_num, book_num , birth_date, l_check)
+values ('Ahmed','Reda', 123456,'Male', 246811 , 1 ,'01-nov-1999','01-dec-2019');
+
+insert into  patients (f_name, l_name, p_ssn, sex, insurence_num, book_num, birth_date, l_check)
+values ('Mohamed','Khaled',78910,'Male', 135711 , 2 ,'11-dec-2000','02-nov-2020');
+
+insert into  patients (f_name, l_name, p_ssn, sex, insurence_num, book_num ,birth_date, l_check)
+values ('Rana','Ali',111213,'Female', 911131 , 3,'12-dec-1981','02-oct-2021');
+
+insert into  patients (f_name, l_name, p_ssn, sex, insurence_num, book_num ,birth_date, l_check)
+values ('Nour','Galal',141516,'Female',151711, 4 ,'01-oct-2002','06-may-2018');
+
+
+/*------------ reeceptionist Table Data ------------*/
+
+insert into receptionist(f_name, l_name, r_ssn, works_hours, sex, salary, hire_date, city, street, house_no)
+values ('Fatma', 'Ali', 20201703123 , 8, 'Female', 4500, '01-oct-2010', 'Doqi', 'Flowers',20);
+
+insert into receptionist(f_name, l_name, r_ssn, works_hours, sex, salary, hire_date, city, street, house_no)
+values ('Ali', 'Ehab', 20201703120, 8, 'Male', 4000, '01-dec-2005', 'El-Shrouk', 'Misr', 18);
+
+insert into receptionist(f_name, l_name, r_ssn, works_hours, sex, salary, hire_date, city, street, house_no)
+values ('Ghada', 'Said', 20201703150, 8, 'Female', 3500, '01-dec-2008', 'New cairo', '90 street', 1);
+
+insert into receptionist(f_name, l_name, r_ssn, works_hours, sex, salary, hire_date, city, street, house_no)
+values ('Amged', 'Zain', 20201703180, 8, 'Male', 4800, '01-nov-2020', 'Giza', 'zamalek', 11);
+
+
+/*------------ reeceptionist Phone Table Data ------------*/
+
+insert into rec_phone(phone, r_ssn) 
+values (011125688,20201703123);
+
+insert into rec_phone(phone, r_ssn) 
+values (010125688,20201703123);
+
+insert into rec_phone(phone, r_ssn) 
+values (012125688,20201703120);
+
+insert into rec_phone(phone, r_ssn) 
+values (015125688,20201703120);
+
+
+/*------------ reeceptionist Degree Table Data ------------*/
+insert into rec_degree(degrees, r_ssn)
+values ('Bachelor of Arts Cairo university',20201703123);
+
+insert into rec_degree(degrees, r_ssn)
+values ('Bachelor of Commerce Cairo university',20201703123);
+
+insert into rec_degree(degrees, r_ssn)
+values ('Bachelor of Engineering Cairo university',20201703120);
+
+insert into rec_degree(degrees, r_ssn)
+values ('Bachelor of Lows Cairo university',20201703120);
+
+
+/*------------ Doctor phone Table Data ------------*/
+
+insert into Doc_Phone(D_SSN,phone)
+values (20201700703,01023870133);
+
+insert into Doc_Phone(D_SSN,phone)
+values (20201700703,01123870133);
+
+insert into Doc_Phone(D_SSN,phone)
+values (20201700805,01234567891);
+
+insert into Doc_Phone(D_SSN,phone)
+values (20201700805,01534567891);
+
+
+/*------------ Doctor Degree Table Data ------------*/
+
+insert into Doc_Degree(D_SSN,D_Degree)
+values (20201700703,'ASU HEART DEGREE');
+
+insert into Doc_Degree(D_SSN,D_Degree)
+values (20201700703,'ASU HEART DEGREE LEVEL 2');
+
+insert into Doc_Degree(D_SSN,D_Degree)
+values (20201700805,'ASU EYES DEGREE');
+
+insert into Doc_Degree(D_SSN,D_Degree)
+values (20201700805,'ASU EYES DEGREE LEVEL 2');
+
+
+/*------------ Assestant phone Table Data ------------*/
+
+insert into Assistant_Phone(A_SSN,phone)
+values (20201700704,01144509950);
+
+insert into Assistant_Phone(A_SSN,phone)
+values (20201700704,01555607080);
+
+insert into Assistant_Phone(A_SSN,phone)
+values (20201700707,01555690203);
+
+insert into Assistant_Phone(A_SSN,phone)
+values (20201700707,01115690203);
+
+
+/*------------ Assestant Degree Table Data ------------*/
+
+insert into Assistant_Degree(A_SSN,A_Degree)
+values (20201700704,'ASU Nusring Degree');
+
+insert into Assistant_Degree(A_SSN,A_Degree)
+values (20201700705,'ASU Nusring Degree');
+
+insert into Assistant_Degree(A_SSN,A_Degree)
+values (20201700707,'ASU Nusring Degree');
+
+insert into Assistant_Degree(A_SSN,A_Degree)
+values (20201700600,'ASU Nusring Degree');
